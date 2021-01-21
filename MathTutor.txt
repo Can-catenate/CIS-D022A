@@ -1,0 +1,69 @@
+/*
+MathTutor.cpp : The program displays two random numbers to be added by the user.
+ After a pause, the user may press a key to display the correct solution.
+ Written by MM.
+ Last update: 1/21/2021
+*/
+
+#include <iostream>
+#include <iomanip>
+#include <random>
+#include <string>
+#include <stdio.h>
+using namespace std;
+
+void PressEnterToContinue()                     
+{
+    /*
+        There are many ways to create a "pause for user input" effect.
+        This function is defined now, and will be called in the main function below.
+        It creates a variable called x.
+        The printf command prints a formatted string, which the user will read as the prompt.
+        Instructs x to hold the value of the user-input character (from keystroke).
+        Pauses until x = \n (the enter key).
+        Reference: https://www.cplusplus.com/forum/articles/7312/
+    */
+    int x;
+    printf("\nWhen you're ready, press ENTER to see the answer.");
+    fflush(stdout);
+    do x = getchar(); while ((x != '\n') && (x != EOF));
+
+}
+
+int main()
+{
+    /* The first section of this program uses a true rng to generate two integers between 1 and 1000 to present to the user
+    as an addition problem. */
+
+    cout << "Let's practice addition! Take your time and add these numbers together.\n";
+    cout << "\n";
+
+    random_device rd;       // Will be used to obtain a seed for the rng.
+    mt19937 gen(rd());      // Standard mersenne_twister_engine seeded with rd()
+    uniform_int_distribution<> distribution(1,1000);        // Set the random max to 1000, just to be nice to the kid.
+
+    int randomNumberUno = distribution(gen);                // This generates a random number to store in randomNumberUno.
+    cout << setw(4) << randomNumberUno << "\n";             // Displays the number. The setw() command gives the number "padding". See Ch. 3.7.
+    int Uno = randomNumberUno;                              // Keeps the first random number in Uno.
+
+    int randomNumber2 = distribution(gen);      // Same as above, but for the second number.
+    cout << "+" << setw(3) << randomNumber2 << "\n";
+    int Dos = randomNumber2;
+    cout << "-----";
+    cout << "\n";
+
+    int sum = Uno + Dos;                        // Sums the stored integers.
+
+    /* The second part of this program responds to the user's keystroke to reveal the sum.*/
+
+    PressEnterToContinue();
+
+    cout << "\n";
+    cout << setw(4) << Uno << "\n";
+    cout << "+" << setw(3) << Dos << "\n";
+    cout << "-----\n";
+    cout << setw(4) << sum;
+    cout << "\n";
+
+    return 0;
+}
